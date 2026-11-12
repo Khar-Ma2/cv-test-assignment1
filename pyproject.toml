@@ -1,0 +1,43 @@
+[project]
+name = "cv"
+version = "0.1.0"
+description = "Комп'ютерний зір роботів: лабораторні програми (відеофільтри ФНЧ/ФВЧ)"
+readme = "README.md"
+authors = [
+    { name = "Khar-Ma2", email = "169257792+Khar-Ma2@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "PySide6>=6.8",
+    # headless: повна збірка вшиває власні плагіни Qt, що конфліктують з PySide6.
+    # <5: у pip-збірці opencv-python-headless 5.0.0 немає HOGDescriptor і CascadeClassifier
+    # (їх використовують слайди лекції 4: HOG, каскади Хаара).
+    "opencv-python-headless>=4.10,<5",
+    "numpy>=2",
+]
+
+[project.scripts]
+cv = "cv:main"
+cv-filters = "cv.video_filters.app:main"
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-qt",
+    "ruff",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+qt_api = "pyside6"

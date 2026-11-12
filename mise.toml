@@ -1,0 +1,32 @@
+[tools]
+python = "3.13"
+uv = "latest"
+
+[tasks.sync]
+description = "Встановити залежності"
+run = "uv sync"
+
+[tasks.app]
+description = "Запустити програму відеофільтрів (ФНЧ/ФВЧ)"
+depends = ["sync"]
+run = "uv run python -m cv.video_filters"
+
+[tasks.test]
+description = "Тести (Qt offscreen)"
+depends = ["sync"]
+env = { QT_QPA_PLATFORM = "offscreen" }
+run = "uv run pytest -q"
+
+[tasks.lint]
+description = "Перевірка стилю (ruff)"
+depends = ["sync"]
+run = ["uv run ruff check .", "uv run ruff format --check ."]
+
+[tasks.fmt]
+description = "Автоформатування (ruff)"
+depends = ["sync"]
+run = ["uv run ruff check --fix .", "uv run ruff format ."]
+
+[tasks.check]
+description = "lint + test"
+depends = ["lint", "test"]

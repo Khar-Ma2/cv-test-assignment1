@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+dist/
+*.egg-info/
+
+# записи й знімки програми
+recordings/
+snapshots/
+*.mp4
